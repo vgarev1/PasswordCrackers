@@ -5,7 +5,7 @@
 
         <meta charset="UTF-8"/>
         
-        <link rel="stylesheet" type="text/css" href="layout.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layout.css') }}"/>
     
     </head>
     
@@ -28,13 +28,11 @@
                 
                 <input type="password" id="password" name="password"/><br/>
                 
-                <!--<input type="submit" value="Login">-->
+                <input type="submit" value="Login">
                 
             </form>
             
-            <input type="button" onclick='window.location.assign("display.html")' value="Login"/><br/>
-            
-            <input type="button" onclick='window.location.assign("signup.html")' value="Create an Account"/>
+            <input type="button" onclick='window.location.assign("{{ url_for('create_page') }}")' value="Create an Account"/>
         
         </div>
     
