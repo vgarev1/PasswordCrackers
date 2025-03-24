@@ -6,6 +6,34 @@
         <meta charset="UTF-8">
         
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layout.css') }}">
+
+        <script>
+            function validateForm()
+            {
+                var name = document.forms["signup-form"]["name"].value;
+
+                var confirm_name = document.forms["signup-form"]["confirm-name"].value;
+
+                var pass = document.forms["signup-form"]["password"].value;
+
+                var confirm_pass = document.forms["signup-form"]["confirm-password"].value;
+
+                if (name.localeCompare(confirm_name) != 0)
+                {
+                    alert("Inputted usernames do not match");
+
+                    return false;
+                }
+
+                if (pass.localeCompare(confirm_pass) != 0)
+                {
+                    alert("Inputted passwords do not match");
+
+                    return false;
+                }
+            }
+
+        </script>
     
     </head>
     
@@ -15,14 +43,14 @@
                 Create an Account
             </h1>
             
-            <form action="{{ url_for('create_user') }}" method="POST">
+            <form name="signup-form" onsubmit="return validateForm()" action="{{ url_for('create_user') }}" method="POST">
                 <label for="name">Username</label><br/>
                 
                 <input type="text" id="name" name="name"/><br/>
                 
-                <label for="confirm-username">Retype Username</label><br/>
+                <label for="confirm-name">Retype Username</label><br/>
                 
-                <input type="text" id="confirm-username" name="confirm-username"/><br/>
+                <input type="text" id="confirm-name" name="confirm-name"/><br/>
                 
                 <label for="password">Password</label><br/>
                 
