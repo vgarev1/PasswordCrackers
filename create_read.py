@@ -10,9 +10,25 @@ mongo = PyMongo(app)  #sets up a connection with MongoDB
 def index_page():
     return render_template("index.html")
 
-@app.route('/create-page', methods=['GET'])
+@app.route('/signup-page', methods=['GET'])
 def create_page():
     return render_template("signup.html")
+
+@app.route('/display-page', methods=['GET', 'POST'])
+def create_page():
+    return render_template("display.html")
+
+@app.route('/create-page', methods=['GET', 'POST'])
+def create_page():
+    return render_template("create.html")
+
+@app.route('/result-page', methods=['GET'])
+def create_page():
+    return render_template("result.html")
+
+@app.route('/delete-page', methods=['GET', 'POST'])
+def create_page():
+    return render_template("delete.html")
 
 @app.route('/users', methods=['POST'])  #URL endpoint that accepts "POST" requests to users
 #Function for creating a new user
