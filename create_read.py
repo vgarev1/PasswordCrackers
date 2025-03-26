@@ -11,23 +11,23 @@ def index_page():
     return render_template("index.html")
 
 @app.route('/signup-page', methods=['GET'])
-def create_page():
+def signup_page():
     return render_template("signup.html")
 
 @app.route('/display-page', methods=['GET', 'POST'])
-def create_page():
+def display_page():
     return render_template("display.html")
 
-@app.route('/create-page', methods=['GET', 'POST'])
+@app.route('/create-page', methods=['GET'])
 def create_page():
     return render_template("create.html")
 
-@app.route('/result-page', methods=['GET'])
-def create_page():
+@app.route('/result-page', methods=['GET', 'POST'])
+def result_page():
     return render_template("result.html")
 
 @app.route('/delete-page', methods=['GET', 'POST'])
-def create_page():
+def delete_page():
     return render_template("delete.html")
 
 @app.route('/users', methods=['POST'])  #URL endpoint that accepts "POST" requests to users
