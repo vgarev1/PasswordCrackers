@@ -1,10 +1,34 @@
-from flask import Flask, request, jsonify, abort  #Flask - creates web application; request - gets data from the incoming requests; jsonify - returns JSON responses; abort - sends error codes if something is wrong
+from flask import Flask, request, jsonify, abort, render_template  #Flask - creates web application; request - gets data from the incoming requests; jsonify - returns JSON responses; abort - sends error codes if something is wrong
 from flask_pymongo import PyMongo  #PyMongo - Flask extention which makes it easier to work with MongoDB
 from bson.objectid import ObjectId  #ObjectId - converts string IDs to MongoDB's native ID type
 
 app = Flask(__name__)  #creates a new Flask object which represents the web application
 app.config["MONGO_URI"] = "mongodb://localhost:27017/mydatabase"
 mongo = PyMongo(app)  #sets up a connection with MongoDB
+
+@app.route('/', methods=['GET'])
+def index_page():
+    return render_template("index.html")
+
+@app.route('/signup-page', methods=['GET'])
+def signup_page():
+    return render_template("signup.html")
+
+@app.route('/display-page', methods=['GET', 'POST'])
+def display_page():
+    return render_template("display.html")
+
+@app.route('/create-page', methods=['GET'])
+def create_page():
+    return render_template("create.html")
+
+@app.route('/result-page', methods=['GET', 'POST'])
+def result_page():
+    return render_template("result.html")
+
+@app.route('/delete-page', methods=['GET', 'POST'])
+def delete_page():
+    return render_template("delete.html")
 
 @app.route('/users', methods=['POST'])  #URL endpoint that accepts "POST" requests to users
 #Function for creating a new user
@@ -19,7 +43,7 @@ def create_user():
     return jsonify({
         "message": "User created successfully",
         "id": str(result.inserted_id)
-    }), 201 
+    }), 201
   
 @app.route('/users', methods=['GET'])  #URL endpoint that accepts "GET" requests to users
 #Function for getting all the users from the database
@@ -31,3 +55,6 @@ def get_users():
         user['_id'] = str(user['_id'])
         result.append(user)
     return jsonify(result)  #returns all the users that are in the database
+
+if __name__ == "__main__":
+    app.run()
