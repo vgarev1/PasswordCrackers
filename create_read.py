@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify, abort, render_template  #Flask - creates web application; request - gets data from the incoming requests; jsonify - returns JSON responses; abort - sends error codes if something is wrong
 from flask_pymongo import PyMongo  #PyMongo - Flask extention which makes it easier to work with MongoDB
 from bson.objectid import ObjectId  #ObjectId - converts string IDs to MongoDB's native ID type
+from markupsafe import escape
+from hashlib import sha512
+import database
 
 app = Flask(__name__)  #creates a new Flask object which represents the web application
-app.config["MONGO_URI"] = "mongodb://localhost:27017/mydatabase"
-mongo = PyMongo(app)  #sets up a connection with MongoDB
 
 @app.route('/', methods=['GET'])
 def index_page():
@@ -14,7 +15,7 @@ def index_page():
 def signup_page():
     return render_template("signup.html")
 
-@app.route('/display-page', methods=['GET', 'POST'])
+@app.route('/display-page', methods=['POST'])
 def display_page():
     return render_template("display.html")
 
@@ -30,21 +31,31 @@ def result_page():
 def delete_page():
     return render_template("delete.html")
 
-@app.route('/users', methods=['POST'])  #URL endpoint that accepts "POST" requests to users
+@app.route('/new-user-page', methods=['POST'])  #URL endpoint that accepts "POST" requests to users
 #Function for creating a new user
 def create_user():
-    data = request.get_json(force=True)  #reads the incoming data
-    #validation
-    if not data or 'name' not in data:
-        abort(400, description="Missing 'name' in request data")
-    
-    result = mongo.db.users.insert_one(data)  #inserts the new user into the database
-    #returns the following message and the id of the new user and the '201' HTTP status code
-    return jsonify({
-        "message": "User created successfully",
-        "id": str(result.inserted_id)
-    }), 201 
-  
+    users_collection = database.get_users()
+
+    users_list = list()
+
+    for user_info in users_collection:
+        users_list.append(user_info["username"])
+
+    input_username = request.form["name"]
+
+    input_success = True
+
+    if input_username in users_list:
+        input_success = False
+
+    else:
+        input_password = sha512(bytes(request.form["password"], encoding='utf-8')).hexdigest()
+
+        database.create_user(input_username, input_password)
+
+    return render_template("new_user.html", success=input_success, username=escape(input_username))
+
+"""
 @app.route('/users', methods=['GET'])  #URL endpoint that accepts "GET" requests to users
 #Function for getting all the users from the database
 def get_users():
@@ -55,6 +66,7 @@ def get_users():
         user['_id'] = str(user['_id'])
         result.append(user)
     return jsonify(result)  #returns all the users that are in the database
+"""
 
 if __name__ == "__main__":
     app.run()
