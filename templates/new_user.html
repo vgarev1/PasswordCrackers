@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Password Generator - New User</title>
+
+        <meta charset="UTF-8"/>
+        
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layout.css') }}"/>
+    
+    </head>
+    
+    <body>
+        <div id="content">
+            {% if (success == True) %}
+            <h1>
+                Welcome, {{ username }}!
+            </h1>
+            
+            <h2>
+                Log In to Begin Password Generation
+            </h2>
+            
+            <input type="button" onclick='window.location.assign("{{ url_for('index_page') }}")' value="Return to Login Page"/>
+            {% else %}
+            <h1>
+                Sorry, {{ username }} is already taken
+            </h1>
+
+            <h2>
+                Please use another username
+            </h2>
+
+            <input type="button" onclick='window.location.assign("{{ url_for('signup_page') }}")' value="Reattempt Signup"/><br/>
+
+            <input type="button" onclick='window.location.assign("{{ url_for('index_page') }}")' value="Return to Login Page"/>
+            {% endif %}
+        
+        </div>
+    
+    </body>
+    
+</html>
