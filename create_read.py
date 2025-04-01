@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, abort, render_template  #Flask - creates web application; request - gets data from the incoming requests; jsonify - returns JSON responses; abort - sends error codes if something is wrong
+from flask import Flask, request, jsonify, abort, render_template, redirect, url_for  #Flask - creates web application; request - gets data from the incoming requests; jsonify - returns JSON responses; abort - sends error codes if something is wrong
 from flask_pymongo import PyMongo  #PyMongo - Flask extention which makes it easier to work with MongoDB
 from bson.objectid import ObjectId  #ObjectId - converts string IDs to MongoDB's native ID type
 from markupsafe import escape
@@ -9,7 +9,13 @@ app = Flask(__name__)  #creates a new Flask object which represents the web appl
 
 @app.route('/', methods=['GET'])
 def index_page():
-    return render_template("index.html")
+    invalid_info = False
+
+    if "invalid" in request.args:
+        if request.args["invalid"] == "True":
+            invalid_info = True
+
+    return render_template("index.html", invalid=invalid_info)
 
 @app.route('/signup-page', methods=['GET'])
 def signup_page():
@@ -17,7 +23,27 @@ def signup_page():
 
 @app.route('/display-page', methods=['POST'])
 def display_page():
-    return render_template("display.html")
+    users_collection = database.get_users()
+
+    users_dict = dict()
+
+    for user_info in users_collection:
+        users_dict[user_info["username"]] = user_info["password"]
+
+    input_username = request.form["username"]
+    input_password = sha512(bytes(request.form["password"], encoding='utf-8')).hexdigest()
+
+    if (input_username in users_dict):
+        if (users_dict[input_username] == input_password):
+            pass
+
+        else:
+            return redirect(url_for('index_page') + "?invalid=True")
+
+    else:
+        return redirect(url_for('index_page') + "?invalid=True")
+
+    return render_template("display.html", username=input_username)
 
 @app.route('/create-page', methods=['GET'])
 def create_page():
