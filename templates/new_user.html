@@ -10,8 +10,7 @@
     </head>
     
     <body>
-        <div id="content">
-            {% if (success == True) %}
+        <div id="content">{% if (success == True) %}
             <h1>
                 Welcome, {{ username }}!
             </h1>
@@ -30,11 +29,10 @@
                 Please use another username
             </h2>
 
-            <input type="button" onclick='window.location.assign("{{ url_for('signup_page') }}")' value="Reattempt Signup"/><br/>
+            <input type="button" onclick='window.location.assign("{{ url_for('signup_page') }}")' value="Reattempt Account Creation"/><br/>
 
             <input type="button" onclick='window.location.assign("{{ url_for('index_page') }}")' value="Return to Login Page"/>
             {% endif %}
-        
         </div>
     
     </body>
