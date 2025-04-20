@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Password</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
+</head>
+<body>
+    <div id="content">
+        <h1>Create a New Password</h1>
+        <form method="POST" action="/generate/{{ user_id }}">
+            <label for="length">Number of Characters (5-30):</label><br>
+            <input type="number" id="length" name="length" min="5" max="30" required><br>
+
+            <h2>Character Types:</h2>
+            <input type="checkbox" id="uppercase" name="uppercase">
+            <label for="uppercase">Uppercase Letters</label><br>
+
+            <input type="checkbox" id="lowercase" name="lowercase">
+            <label for="lowercase">Lowercase Letters</label><br>
+
+            <input type="checkbox" id="number" name="number">
+            <label for="number">Numbers</label><br>
+
+            <input type="checkbox" id="special" name="special">
+            <label for="special">Special Characters</label><br>
+
+            <label for="site-name">Site Name:</label><br>
+            <input type="text" id="site-name" name="site-name" required><br>
+
+            <input type="submit" value="Generate Password">
+        </form>
+    </div>
+</body>
+</html>

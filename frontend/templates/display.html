@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Password Generator - View Password</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
+</head>
+<body>
+    <div id="content">
+        <h1>Your Generated Password</h1>
+        <div class="password">
+            <h3>Site: {{ site }}</h3>
+            <p>Password: {{ password }}</p>
+            <p><strong>Strength:</strong> {{ strength }}</p>
+            <button onclick="navigator.clipboard.writeText('{{ password }}')">Copy to Clipboard</button>
+        </div>
+        <form method="POST" action="/delete_password/{{ user_id }}">
+            <input type="hidden" name="password" value="{{ password }}">
+            <button type="submit">Delete Password</button>
+        </form>
+        <button onclick="window.location.href='/create/{{ user_id }}'">Generate Another Password</button>
+        <button onclick="window.location.href='/dashboard/{{ user_id }}'">Back to Dashboard</button>
+    </div>
+</body>
+</html>

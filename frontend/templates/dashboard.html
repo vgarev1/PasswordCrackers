@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
+</head>
+<body>
+    <div id="content">
+        <h1>Welcome to Your Dashboard</h1>
+        <button onclick="window.location.href='/create/{{ user_id }}'">Create Password</button>
+        <button onclick="window.location.href='/view_passwords/{{ user_id }}'">View Passwords</button>
+        <button onclick="window.location.href='/logout'">Logout</button>
+    </div>
+</body>
+</html>
