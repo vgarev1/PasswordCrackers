@@ -10,7 +10,7 @@
         <h1>Welcome to Your Dashboard</h1>
         <button onclick="window.location.href='/create/{{ user_id }}'">Create Password</button>
         <button onclick="window.location.href='/view_passwords/{{ user_id }}'">View Passwords</button>
-        <button onclick="window.location.href='/logout'">Logout</button>
+        <button onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
     </div>
 </body>
 </html>
