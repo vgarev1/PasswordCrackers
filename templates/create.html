@@ -11,38 +11,30 @@
     
     <body>
         <div id="content">
-            <h1>
-                Select Password Parameters
-            </h1>
+            <h1>Select Password Parameters</h1>
             
-            <form action="{{ url_for('result_page') }}" method="POST">
+            <form action="{{ url_for('generate') }}" method="POST">
                 <label for="length">Number of Characters (5-30)</label><br/>
                 
-                <input type="number" id="length" name="length" min="5" max="30"/><br/>
+                <input type="number" id="length" name="length" min="5" max="30" required/><br/>
                 
                 <h2>Types of Characters to Use</h2>
                 
                 <input type="checkbox" id="uppercase" name="uppercase" value="uppercase"/>
-                
                 <label for="uppercase">Uppercase Letters (A, B, C, etc.)</label>
             
                 <input type="checkbox" id="lowercase" name="lowercase" value="lowercase"/>
-                
                 <label for="lowercase">Lowercase Letters (a, b, c, etc.)</label><br/>
                 
                 <input type="checkbox" id="number" name="number" value="number"/>
-                
                 <label for="number">Numbers (1, 2, 3, etc.)</label><br/>
                 
                 <input type="checkbox" id="special" name="special" value="special"/>
-                
-                <label for="number">Special Characters (!, @, #, $, etc.)</label><br/>
+                <label for="special">Special Characters (!, @, #, $, etc.)</label><br/>
                 
                 <h2>Name of Associated Site</h2>
-                
                 <label for="site-name">Site Name</label><br/>
-                
-                <input type="text" id="site-name" name="site-name"/><br/>
+                <input type="text" id="site-name" name="site-name" required/><br/>
                 
                 <input type="submit" value="Generate Password">
                 

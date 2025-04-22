@@ -1,33 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Password Generator - Genration Complete</title>
+        <title>Password Generator - Generation Complete</title>
 
         <meta charset="UTF-8">
         
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layout.css') }}">
+
+        <style>
+            .strength-container {
+                margin-top: 10px;
+                width: 300px;
+                height: 20px;
+                background-color: #ddd;
+                border-radius: 5px;
+                overflow: hidden;
+            }
+
+            .strength-bar {
+                height: 100%;
+                width: 0%;
+                transition: width 0.5s;
+            }
+
+            .weak {
+                background-color: red;
+            }
+
+            .medium {
+                background-color: orange;
+            }
+
+            .strong {
+                background-color: green;
+            }
+
+            .label {
+                margin-top: 5px;
+                font-weight: bold;
+            }
+        </style>
     
     </head>
     
     <body>
         <div id="content">
-            <h1>
-                Generation Complete
-            </h1>
+            <h1>Generation Complete</h1>
             
-            <h2>
-                Your Generated Password for sitename.com is
-            </h2>
+            <h2>Your Generated Password for {{ site }} is:</h2>
             
-            <h2>
-                poiuytrewq
-            </h2>
+            <h2 id="password">{{ password }}</h2>
+
+            <div class="strength-container">
+                <div id="strength-bar" class="strength-bar"></div>
+            </div>
+
+            <div id="strength-label" class="label"></div>
             
-            <input type="button" value="Copy to Clipboard"/><br/>
+            <input type="button" value="Copy to Clipboard" onclick="copyToClipboard()"/><br/>
             
             <input type="button" onclick='window.location.assign("{{ url_for('display_page') }}")' value="Go Back"/>
                 
         </div>
+
+        <script>
+            const password = document.getElementById("password").textContent;
+            const strengthBar = document.getElementById("strength-bar");
+            const strengthLabel = document.getElementById("strength-label");
+
+            function evaluateStrength(pw)
+            {
+                let score = 0;
+                if (pw.length >= 8) score++;
+                if (/[A-Z]/.test(pw)) score++;
+                if (/[a-z]/.test(pw)) score++;
+                if (/[0-9]/.test(pw)) score++;
+                if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+                return score;
+            }
+
+            function updateStrengthUI(score)
+            {
+                const percentage = (score / 5) * 100;
+                strengthBar.style.width = `${percentage}%`;
+
+                strengthBar.classList.remove('weak', 'medium', 'strong');
+
+                if (score <= 2)
+                {
+                    strengthBar.classList.add('weak');
+                    strengthLabel.textContent = 'Weak';
+                }
+
+                else if (score <= 4)
+                {
+                    strengthBar.classList.add('medium');
+                    strengthLabel.textContent = 'Medium';
+                }
+                else
+                {
+                    strengthBar.classList.add('strong');
+                    strengthLabel.textContent = 'Strong';
+                }
+            }
+
+            function copyToClipboard()
+            {
+                navigator.clipboard.writeText(password).then(() => {
+                    alert("Password copied to clipboard!");
+                });
+            }
+
+            const score = evaluateStrength(password);
+            updateStrengthUI(score);
+        </script>
     
     </body>
     
