@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, abort, render_template, redirect, url_for  #Flask - creates web application; request - gets data from the incoming requests; jsonify - returns JSON responses; abort - sends error codes if something is wrong
+from flask import Flask, session, request, jsonify, abort, render_template, redirect, url_for  #Flask - creates web application; request - gets data from the incoming requests; jsonify - returns JSON responses; abort - sends error codes if something is wrong
 from flask_pymongo import PyMongo  #PyMongo - Flask extention which makes it easier to work with MongoDB
 from bson.objectid import ObjectId  #ObjectId - converts string IDs to MongoDB's native ID type
 from markupsafe import escape
@@ -7,6 +7,7 @@ from pass_generator import PasswordGenerator
 import database
 
 app = Flask(__name__)  #creates a new Flask object which represents the web application
+app.secret_key = "your_secret_key"
 
 @app.route('/', methods=['GET'])
 def index_page():
@@ -22,29 +23,33 @@ def index_page():
 def signup_page():
     return render_template("signup.html")
 
-@app.route('/display-page', methods=['POST'])
+@app.route('/display-page', methods=['GET', 'POST'])
 def display_page():
-    users_collection = database.get_users()
+    if request.method == "POST":
+        session['username'] = request.form["username"]
+        users_collection = database.get_users()
 
-    users_dict = dict()
+        users_dict = dict()
 
-    for user_info in users_collection:
-        users_dict[user_info["username"]] = user_info["password"]
+        for user_info in users_collection:
+            users_dict[user_info["username"]] = user_info["password"]
 
-    input_username = request.form["username"]
-    input_password = sha512(bytes(request.form["password"], encoding='utf-8')).hexdigest()
+        input_username = request.form["username"]
+        input_password = sha512(bytes(request.form["password"], encoding='utf-8')).hexdigest()
 
-    if (input_username in users_dict):
-        if (users_dict[input_username] == input_password):
-            pass
+        if (input_username in users_dict):
+            if (users_dict[input_username] == input_password):
+                pass
+
+            else:
+                return redirect(url_for('index_page') + "?invalid=True")
 
         else:
             return redirect(url_for('index_page') + "?invalid=True")
 
-    else:
-        return redirect(url_for('index_page') + "?invalid=True")
+    user_pass_list = database.get_user_password_history(database.get_user_ID(session["username"]))
 
-    return render_template("display.html", username=input_username)
+    return render_template("display.html", username=session["username"], pass_list=user_pass_list)
 
 @app.route('/create-page', methods=['GET'])
 def create_page():
@@ -75,6 +80,8 @@ def generate():
 
     # Generate the password
     password = gen.generate()
+
+    database.store_password(database.get_user_ID(session["username"]), password, site)
 
     # Render result page with password and site
     return render_template('result.html', password=password, site=site)

@@ -26,13 +26,13 @@ def create_user(username, hashed_password):
     return inserted_id
 
 # Function to store a generated password
-def store_password(user_id, password, strength):
+def store_password(user_id, password, sitename):
     client, db = client_open()
 
     password_entry = {
         "user_id": ObjectId(user_id),
         "password": password,  # Encrypt this before storing in production
-        "strength": strength,
+        "sitename": sitename,
         "created_at": datetime.now(timezone.utc)
     }
 
@@ -51,6 +51,11 @@ def get_users():
 
     return users_collection
 
+def get_user_ID(username):
+    client, db = client_open()
+
+    return db["users"].find_one({"username": username})["_id"]
+
 # Function to retrieve a user's password history
 def get_user_password_history(user_id):
     client, db = client_open()
@@ -67,7 +72,7 @@ if __name__ == "__main__":
     user_id = create_user("testuser", "hashed_test_password")
     print(f"User Created with ID: {user_id}")
 
-    password_id = store_password(user_id, "P@ssw0rd123", "Strong")
+    password_id = store_password(user_id, "P@ssw0rd123", "a.b.com")
     print(f"Stored Password with ID: {password_id}")
 
     history = get_user_password_history(user_id)
