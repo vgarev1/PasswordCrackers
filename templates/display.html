@@ -36,39 +36,19 @@
             <h2>
                 Your Saved Passwords
             </h2>
-            
+
+            {% for pass in pass_list %}
             <div class="password">
-                <h3>Site1.com</h3>
-                
-                <p>qwertyuiop</p>
-                
+                <h3>{{ pass["sitename"] }}</h3>
+
+                <p>{{ pass["password"] }}</p>
+
                 <input type="button" value="Copy to Clipboard"/>
-                
+
                 <input type="button" onclick='window.location.assign("{{ url_for('delete_page') }}")' value="Delete Password"/>
-            
+
             </div>
-            
-            <div class="password">
-                <h3>Site2.com</h3>
-                
-                <p>asdfghjkl</p>
-                
-                <input type="button" value="Copy to Clipboard"/>
-                
-                <input type="button" onclick='window.location.assign("{{ url_for('delete_page') }}")' value="Delete Password"/>
-            
-            </div>
-            
-            <div class="password">
-                <h3>Site3.com</h3>
-                
-                <p>zxcvbnm</p>
-                
-                <input type="button" value="Copy to Clipboard"/>
-                
-                <input type="button" onclick='window.location.assign("{{ url_for('delete_page') }}")' value="Delete Password"/>
-            
-            </div>
+            {% endfor %}
             
             <input type="button" onclick='window.location.assign("{{ url_for('create_page') }}")' value="Create New Password"/><br/>
             
