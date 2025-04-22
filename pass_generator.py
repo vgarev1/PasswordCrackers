@@ -137,7 +137,7 @@ class PasswordGenerator:
 
         shuffle(final_pass)
         return "".join(final_pass)
-    
+
 password = PasswordGenerator()
 #custom properties of password from changing class attributes
 password.maxlen = 5
