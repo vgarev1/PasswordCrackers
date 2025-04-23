@@ -3,23 +3,220 @@
 <head>
     <title>Password Generator - View Password</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/layout.css">
+    <style>
+        /* Password result container */
+        .password {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e9ecef;
+        }
+        
+        /* Site name styling */
+        .site-name {
+            color: #4361ee;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        
+        /* Password display styling */
+        .password-display {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: 2px solid #ced4da;
+            color: #212529;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            word-break: break-all;
+        }
+        
+        /* Strength label styling */
+        .strength-label {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .strength-text {
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .weak-text { color: #dc3545; }
+        .okay-text { color: #fd7e14; }
+        .strong-text { color: #8bc34a; }
+        .very-strong-text { color: #198754; }
+        
+        /* Strength bar container */
+        .strength-bar-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            height: 16px;
+            overflow: hidden;
+        }
+        
+        /* Strength bar */
+        .strength-bar {
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Strength levels */
+        .weak {
+            width: 25%;
+            background-color: #dc3545;
+        }
+        
+        .okay {
+            width: 50%;
+            background-color: #fd7e14;
+        }
+        
+        .strong {
+            width: 75%;
+            background-color: #8bc34a;
+        }
+        
+        .very-strong {
+            width: 100%;
+            background-color: #198754;
+        }
+        
+        /* Button styling */
+        .copy-btn {
+            background-color: #212529;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background-color: #343a40;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+        
+        .navigate-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .generate-another {
+            background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .generate-another:hover {
+            background: linear-gradient(135deg, #3a56d4 0%, #2a3eb1 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .back-to-dash {
+            background: transparent;
+            color: #4361ee;
+            border: 2px solid #4361ee;
+        }
+        
+        .back-to-dash:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Page title */
+        h1 {
+            text-align: center;
+            color: #4361ee;
+            margin-bottom: 30px;
+        }
+        
+        /* Animation for the password display */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .password {
+            animation: fadeIn 0.6s ease;
+        }
+    </style>
 </head>
 <body>
     <div id="content">
         <h1>Your Generated Password</h1>
         <div class="password">
-            <h3>Site: {{ site }}</h3>
-            <p>Password: {{ password }}</p>
-            <p><strong>Strength:</strong> {{ strength }}</p>
-            <button onclick="navigator.clipboard.writeText('{{ password }}')">Copy to Clipboard</button>
+            <h3 class="site-name">Site: {{ site }}</h3>
+            <div class="password-display">{{ password }}</div>
+            
+            <div class="strength-label">
+                <strong>Strength:</strong> 
+                <span class="strength-text 
+                    {% if strength == 'Weak' %}weak-text{% endif %}
+                    {% if strength == 'Okay' %}okay-text{% endif %}
+                    {% if strength == 'Strong' %}strong-text{% endif %}
+                    {% if strength == 'Very Strong' %}very-strong-text{% endif %}">
+                    {{ strength }}
+                </span>
+            </div>
+            
+            <div class="strength-bar-container">
+                <div class="strength-bar
+                    {% if strength == 'Weak' %}weak{% endif %}
+                    {% if strength == 'Okay' %}okay{% endif %}
+                    {% if strength == 'Strong' %}strong{% endif %}
+                    {% if strength == 'Very Strong' %}very-strong{% endif %}">
+                </div>
+            </div>
+            
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('{{ password }}')">
+                Copy to Clipboard
+            </button>
         </div>
-        <form method="POST" action="/delete_password/{{ user_id }}">
-            <input type="hidden" name="password" value="{{ password }}">
-            <button type="submit">Delete Password</button>
-        </form>
-        <button onclick="window.location.href='/create/{{ user_id }}'">Generate Another Password</button>
-        <button onclick="window.location.href='/dashboard/{{ user_id }}'">Back to Dashboard</button>
+        
+        <button class="navigate-btn generate-another" onclick="window.location.href='/create/{{ user_id }}'">
+            Generate Another Password
+        </button>
+        
+        <button class="navigate-btn back-to-dash" onclick="window.location.href='/dashboard/{{ user_id }}'">
+            Back to Dashboard
+        </button>
     </div>
 </body>
 </html>

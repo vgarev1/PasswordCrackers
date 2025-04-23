@@ -3,7 +3,7 @@ from backend.database import create_user, validate_user, store_password, get_pas
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Explicitly set the template folder to "frontend/templates"
-app = Flask(__name__, template_folder="frontend/templates")
+app = Flask(__name__, template_folder="frontend/templates", static_folder="frontend/static") 
 app.secret_key = "your_secret_key"  # Replace with a secure random key
 
 @app.route('/')
@@ -85,17 +85,20 @@ def view_passwords(user_id):
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        # Get username and password from the form
+        # Get username, email, and password from the form
         username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
 
-        # Hash the password and create a new user
+        # Hash the password
         hashed_password = generate_password_hash(password)
-        user_id = create_user(username, hashed_password)
+
+        # Create a new user in the database
+        user_id = create_user(username, email, hashed_password)
         if user_id:
             return redirect(url_for('login_page'))
         else:
-            return "Username already exists. Please choose a different username.", 400
+            return "Username or email already exists. Please choose a different one.", 400
 
     return render_template('signup.html')
 

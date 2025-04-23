@@ -10,12 +10,14 @@ users_collection = db["users"]
 passwords_collection = db["passwords"]
 
 # Function to create a new user
-def create_user(username, hashed_password):
-    # Check if the username already exists
-    if users_collection.find_one({"username": username}):
-        return None  # Username already exists
+def create_user(username, email, hashed_password):
+    # Check if the username or email already exists
+    if users_collection.find_one({"$or": [{"username": username}, {"email": email}]}):
+        return None  # Username or email already exists
+
     user = {
         "username": username,
+        "email": email,  # Store the email
         "password": hashed_password,  # Store hashed passwords
         "created_at": datetime.utcnow()
     }

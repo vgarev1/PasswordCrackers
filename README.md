@@ -48,3 +48,10 @@ PasswordCrackers/
 │       │   └── script.js      # Main JavaScript file
 │       └── images/
 │           └── background.jpg # Background image
+
+## Setup and Running the Application
+
+### Starting the MongoDB Server
+To start the MongoDB server with your custom configuration file, run the following command:
+```bash
+mongod --config ~/mongod.conf

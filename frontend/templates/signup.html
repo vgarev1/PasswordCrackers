@@ -3,12 +3,15 @@
     <head>
         <title>Signup</title>
         <meta charset="UTF-8"/>
-        <link rel="stylesheet" type="text/css" href="../static/css/layout.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/layout.css"/>
     </head>
     <body>
         <div id="content">
             <h1>Create an Account</h1>
             <form action="/signup" method="POST">
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required 
+                style="width: 100%; padding: 25px; margin: -10px 0 15px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 1rem; height: 70px;"><br>
                 <label for="username">Username</label><br/>
                 <input type="text" id="username" name="username" required/><br/>
                 <label for="password">Password</label><br/>
