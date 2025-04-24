@@ -3,10 +3,8 @@ A full-stack password generator web application that enables users to create sec
 ## Usage (Step-by-Step)
 1. Visit the website:
 
-2. Create an account (Optional):
+2. Create an account:
    - Username
-   - First name
-   - Last name
    - Email
    - Password
 
