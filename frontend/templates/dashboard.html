@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/layout.css">
+    <style>
+        .dashboard-button {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            margin: 25px 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .create-btn {
+            background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+            color: white;
+        }
+        
+        .create-btn:hover {
+            background: linear-gradient(135deg, #3a56d4 0%, #2a3eb1 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .view-btn {
+            background: linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%);
+            color: white;
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #36b6dd 0%, #3a56d4 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logout-btn {
+            background: white;
+            color: #212529;
+            border: 2px solid #dee2e6;
+        }
+        
+        .logout-btn:hover {
+            background: #f8f9fa;
+            border-color: #ced4da;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>Welcome to Your Dashboard</h1>
+        <button class="dashboard-button create-btn" onclick="window.location.href='/create/{{ user_id }}'">Create Password</button>
+        <button class="dashboard-button view-btn" onclick="window.location.href='/view_passwords/{{ user_id }}'">View Passwords</button>
+        <button class="dashboard-button logout-btn" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+</body>
+</html>

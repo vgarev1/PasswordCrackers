@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Password</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
+    <style>
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #212529;
+        }
+        
+        .number-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: 2px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        
+        .number-input:focus {
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: 2px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        
+        .text-input:focus {
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+        
+        .checkbox-group {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            background-color: #f8f9fa;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-input {
+            width: 22px;
+            height: 22px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label {
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #4361ee;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin-top: 30px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #3a56d4 0%, #2a3eb1 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4361ee;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>Create a New Password</h1>
+        <form method="POST" action="/generate/{{ user_id }}">
+            <div class="form-group">
+                <label class="form-label" for="length">Number of Characters (5-30):</label>
+                <input class="number-input" type="number" id="length" name="length" min="5" max="30" required>
+            </div>
+            
+            <div class="checkbox-group">
+                <h2 class="section-title">Character Types:</h2>
+                
+                <div class="checkbox-container">
+                    <input class="checkbox-input" type="checkbox" id="uppercase" name="uppercase">
+                    <label class="checkbox-label" for="uppercase">Uppercase Letters (A-Z)</label>
+                </div>
+                
+                <div class="checkbox-container">
+                    <input class="checkbox-input" type="checkbox" id="lowercase" name="lowercase">
+                    <label class="checkbox-label" for="lowercase">Lowercase Letters (a-z)</label>
+                </div>
+                
+                <div class="checkbox-container">
+                    <input class="checkbox-input" type="checkbox" id="number" name="number">
+                    <label class="checkbox-label" for="number">Numbers (0-9)</label>
+                </div>
+                
+                <div class="checkbox-container">
+                    <input class="checkbox-input" type="checkbox" id="special" name="special">
+                    <label class="checkbox-label" for="special">Special Characters (!@#$%^&*)</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="site-name">Site Name:</label>
+                <input class="text-input" type="text" id="site-name" name="site-name" placeholder="e.g. Facebook, Google, Amazon" required>
+            </div>
+            
+            <input class="submit-btn" type="submit" value="Generate Password">
+        </form>
+    </div>
+</body>
+</html>
